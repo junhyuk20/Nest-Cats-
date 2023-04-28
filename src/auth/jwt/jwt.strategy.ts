@@ -18,7 +18,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   //* jwt 인증부분 유효성 검사
   async validate(payload: Payload) {
     const cat = await this.catsRepository.findCatByIdWithoutPassword(
-      payload.sub,
+      payload.sub, //* sub는 토큰 발급시 해당 스키마의 id 값으로 작성해 주었다.
     );
     if (cat) {
       return cat; //* request.user 에 cat이 들어가게됨

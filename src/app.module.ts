@@ -16,7 +16,7 @@ import * as mongoose from 'mongoose';
       useUnifiedTopology: true, // <-- no longer necessary
     }),
     CatsModule,
-    AuthModule,
+    AuthModule, //* 인증
   ],
   controllers: [AppController],
   providers: [AppService],

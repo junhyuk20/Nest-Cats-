@@ -8,6 +8,10 @@ import { CatRequestDto } from './dto/cats.request.dto';
 @Injectable()
 export class CatsRepository {
   constructor(@InjectModel(Cat.name) private readonly catModel: Model<Cat>) {}
+  //* 다가져와
+  async findAll() {
+    return await this.catModel.find();
+  }
 
   //* 계정 생성
   async create(cat: CatRequestDto): Promise<Cat> {
@@ -31,5 +35,17 @@ export class CatsRepository {
   async findCatByIdWithoutPassword(catId: string): Promise<Cat | null> {
     const cat = this.catModel.findById(catId).select('-password'); //* 여기서 select 함수는 원하는 필드만을 가져올떄 사용되며, '-'을 사용후 필드명을 붙이게 되면 해당 필드만 빼고 나머지 가져오겠다 라는 뜻임
     return cat;
+  }
+
+  //* 이미지 업로드
+  async findByIdAndUpdateImg(id: string, fileName: string) {
+    const cat = await this.catModel.findById(id);
+
+    cat.imgUrl = `http://localhost:8000/media/${fileName}`;
+
+    const newCat = await cat.save();
+
+    console.log(newCat);
+    return newCat.readOnlyData;
   }
 }
